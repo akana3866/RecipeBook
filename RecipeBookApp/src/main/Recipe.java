@@ -3,17 +3,79 @@ package main;
 import java.util.ArrayList;
 
 public class Recipe {
-	
-	public Recipe(int i, String name2, String description2, Meal meal2, ArrayList<String> ingredients2,
-            ArrayList<String> instructions2, boolean b) {
-        //TODO Auto-generated constructor stub
+
+    private int recipeID;
+    private String name;
+    private String description;
+    private Meal meal;
+    private ArrayList<String> ingredients;
+    private ArrayList<String> instructions;
+    private Boolean isFavorite;
+
+    public Recipe(int recipeID, String name, String description, Meal meal, ArrayList<String> ingredients,
+            ArrayList<String> instructions, boolean isFavorite) {
+        this.recipeID = recipeID;
+        this.name = name;
+        this.description = description;
+        this.meal = meal;
+        this.ingredients = ingredients;
+        this.instructions = instructions;
+        this.isFavorite = isFavorite;
     }
-    int recipeID;
-	String name;
-	String description;
-	Meal meal;
-	ArrayList<String> ingredients;
-	ArrayList<String> instructions;
-	Boolean isFavorite;
-	
+
+    public int getRecipeID() {
+        return recipeID;
+    }
+
+    public void setRecipeID(int recipeID) {
+        this.recipeID = recipeID;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Meal getMeal() {
+        return meal;
+    }
+
+    public void setMeal(Meal meal) {
+        this.meal = meal;
+    }
+
+    public ArrayList<String> getIngredients() {
+        return ingredients;
+    }
+
+    public void setIngredients(ArrayList<String> ingredients) {
+        this.ingredients = ingredients;
+    }
+
+    public ArrayList<String> getInstructions() {
+        return instructions;
+    }
+
+    public void setInstructions(ArrayList<String> instructions) {
+        this.instructions = instructions;
+    }
+
+    public Boolean getIsFavorite() {
+        return isFavorite;
+    }
+
+    public void setIsFavorite(Boolean isFavorite) {
+        this.isFavorite = isFavorite;
+    }
 }

@@ -31,7 +31,7 @@ public class RecipeManager {
     }
 
     public void addRecipe(Recipe recipe) {
-        recipe.recipeID = ++recipeCounter;
+        recipe.setRecipeID(++recipeCounter);
         recipeList.add(recipe);
         saveAllRecipes();
     }
@@ -42,7 +42,7 @@ public class RecipeManager {
 
     public Recipe getRecipe(int recipeID) {
         for (Recipe recipe : recipeList) {
-            if (recipe.recipeID == recipeID) {
+            if (recipe.getRecipeID() == recipeID) {
                 return recipe;
             }
         }
