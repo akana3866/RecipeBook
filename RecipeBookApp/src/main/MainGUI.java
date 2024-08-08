@@ -17,6 +17,7 @@ public class MainGUI extends JFrame {
 
     private static final long serialVersionUID = 1L;
     private JPanel contentPane;
+    private RecipeManager recipeManager;
 
     public static void main(String[] args) {
         EventQueue.invokeLater(new Runnable() {
@@ -32,6 +33,8 @@ public class MainGUI extends JFrame {
     }
 
     public MainGUI() {
+        recipeManager = new RecipeManager();  // Initialize RecipeManager
+
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 450, 300);
         contentPane = new JPanel();
@@ -39,53 +42,48 @@ public class MainGUI extends JFrame {
         contentPane.setLayout(new BorderLayout(0, 0));
         setContentPane(contentPane);
 
-        // Welcome title
         JLabel titleLabel = new JLabel("Welcome to Your Recipe Book!");
         titleLabel.setHorizontalAlignment(JLabel.CENTER);
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 24)); // Set Arial font and larger size
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
         contentPane.add(titleLabel, BorderLayout.NORTH);
 
-        // Center panel for buttons
         JPanel buttonPanel = new JPanel();
-        buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS)); // Stack buttons vertically
+        buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
         contentPane.add(buttonPanel, BorderLayout.CENTER);
 
-        // Add spacing between title and buttons
         buttonPanel.add(Box.createVerticalStrut(20));
 
-        // Search Recipe button
         JButton searchButton = new JButton("Search for a Recipe");
         searchButton.setAlignmentX(CENTER_ALIGNMENT);
         buttonPanel.add(searchButton);
         searchButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                // Implement search functionality here
+                SearchGUI searchGUI = new SearchGUI();
+                searchGUI.setVisible(true);
             }
         });
 
-        // Add spacing between buttons
         buttonPanel.add(Box.createVerticalStrut(10));
 
-        // Browse Recipes button
         JButton browseButton = new JButton("Browse All Recipes");
         browseButton.setAlignmentX(CENTER_ALIGNMENT);
         buttonPanel.add(browseButton);
         browseButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                // Implement browse functionality here
+                BrowseGUI browseGUI = new BrowseGUI();
+                browseGUI.setVisible(true);
             }
         });
 
-        // Add spacing between buttons
         buttonPanel.add(Box.createVerticalStrut(10));
 
-        // Add New Recipe button
         JButton addButton = new JButton("Add a New Recipe");
         addButton.setAlignmentX(CENTER_ALIGNMENT);
         buttonPanel.add(addButton);
         addButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                // Implement add functionality here
+                AddRecipeGUI addRecipeGUI = new AddRecipeGUI(recipeManager);
+                addRecipeGUI.setVisible(true);
             }
         });
     }
