@@ -15,6 +15,12 @@ public class EditGUI extends JFrame {
     private JTextArea ingredientsArea;
     private JTextArea instructionsArea;
     private JComboBox<Meal> mealComboBox;
+    private JLabel lblMeal;
+    private JButton btnSave;
+    private JLabel lblInstructions;
+    private JLabel lblIngredients;
+    private JLabel lblDescription;
+    private JLabel lblName;
     
     private RecipeManager recipeManager;
     private Recipe recipe;
@@ -30,7 +36,7 @@ public class EditGUI extends JFrame {
         contentPane.setLayout(null);
         setContentPane(contentPane);
 
-        JLabel lblName = new JLabel("Name:");
+        lblName = new JLabel("Name:");
         lblName.setBounds(10, 10, 80, 25);
         contentPane.add(lblName);
 
@@ -38,7 +44,7 @@ public class EditGUI extends JFrame {
         nameField.setBounds(100, 10, 300, 25);
         contentPane.add(nameField);
 
-        JLabel lblDescription = new JLabel("Description:");
+        lblDescription = new JLabel("Description:");
         lblDescription.setBounds(10, 45, 80, 25);
         contentPane.add(lblDescription);
 
@@ -46,7 +52,7 @@ public class EditGUI extends JFrame {
         descriptionArea.setBounds(100, 45, 300, 50);
         contentPane.add(descriptionArea);
 
-        JLabel lblIngredients = new JLabel("Ingredients:");
+        lblIngredients = new JLabel("Ingredients:");
         lblIngredients.setBounds(10, 110, 80, 25);
         contentPane.add(lblIngredients);
 
@@ -54,7 +60,7 @@ public class EditGUI extends JFrame {
         ingredientsArea.setBounds(100, 110, 300, 50);
         contentPane.add(ingredientsArea);
 
-        JLabel lblInstructions = new JLabel("Instructions:");
+        lblInstructions = new JLabel("Instructions:");
         lblInstructions.setBounds(10, 175, 80, 25);
         contentPane.add(lblInstructions);
 
@@ -62,7 +68,7 @@ public class EditGUI extends JFrame {
         instructionsArea.setBounds(100, 175, 300, 50);
         contentPane.add(instructionsArea);
 
-        JLabel lblMeal = new JLabel("Meal:");
+        lblMeal = new JLabel("Meal:");
         lblMeal.setBounds(10, 240, 80, 25);
         contentPane.add(lblMeal);
 
@@ -71,7 +77,7 @@ public class EditGUI extends JFrame {
         mealComboBox.setBounds(100, 240, 300, 25);
         contentPane.add(mealComboBox);
 
-        JButton btnSave = new JButton("Save Changes");
+        btnSave = new JButton("Save Changes");
         btnSave.setBounds(150, 300, 150, 25);
         contentPane.add(btnSave);
 

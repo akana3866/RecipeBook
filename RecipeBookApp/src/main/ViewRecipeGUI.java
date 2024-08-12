@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.UUID;
+
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -21,12 +23,20 @@ public class ViewRecipeGUI extends JFrame {
     private static final long serialVersionUID = 1L;
     private JPanel contentPane;
     private JTextArea recipeDetailsArea;
-    private Recipe recipe;
     private RecipeManager recipeManager;
-
-    public ViewRecipeGUI(RecipeManager recipeManager, Recipe recipe) {
+    private UUID recipeID;
+    private JButton favoriteButton;
+    private JScrollPane scrollPane;
+    private JPanel buttonPanel;
+    private JButton editButton;
+    private JLabel lblNewLabel;
+    private JButton btnBack;
+    private JButton exportButton;
+    private JButton deleteButton;
+    
+    public ViewRecipeGUI(RecipeManager recipeManager, UUID recipeID) {
         this.recipeManager = recipeManager;
-        this.recipe = recipe;
+        this.recipeID = recipeID;
 
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setBounds(100, 100, 450, 300);
@@ -38,17 +48,17 @@ public class ViewRecipeGUI extends JFrame {
         // Text area to show recipe details
         recipeDetailsArea = new JTextArea();
         recipeDetailsArea.setEditable(false);
-        JScrollPane scrollPane = new JScrollPane(recipeDetailsArea);
+        scrollPane = new JScrollPane(recipeDetailsArea);
         scrollPane.setBounds(5, 38, 440, 164);
         contentPane.add(scrollPane);
 
         // Bottom panel for buttons
-        JPanel buttonPanel = new JPanel();
+        buttonPanel = new JPanel();
         buttonPanel.setBounds(5, 202, 440, 64);
         contentPane.add(buttonPanel);
         buttonPanel.setLayout(null);
 
-        JButton editButton = new JButton("Edit Recipe");
+        editButton = new JButton("Edit Recipe");
         editButton.setBounds(41, 5, 173, 29);
         buttonPanel.add(editButton);
         editButton.addActionListener(new ActionListener() {
@@ -57,7 +67,7 @@ public class ViewRecipeGUI extends JFrame {
             }
         });
 
-        JButton deleteButton = new JButton("Delete Recipe");
+        deleteButton = new JButton("Delete Recipe");
         deleteButton.setBounds(252, 5, 160, 29);
         buttonPanel.add(deleteButton);
         deleteButton.addActionListener(new ActionListener() {
@@ -66,7 +76,7 @@ public class ViewRecipeGUI extends JFrame {
             }
         });
 
-        JButton exportButton = new JButton("Export to Text File");
+        exportButton = new JButton("Export to Text File");
         exportButton.setBounds(252, 30, 160, 29);
         buttonPanel.add(exportButton);
         exportButton.addActionListener(new ActionListener() {
@@ -76,26 +86,26 @@ public class ViewRecipeGUI extends JFrame {
         });
 
         // Favorite button to toggle favorite status
-        JButton favoriteButton = new JButton(recipe.getIsFavorite() ? "Unmark Favorite" : "Mark as Favorite");
+        Recipe recipe = recipeManager.getRecipe(recipeID);
+        favoriteButton = new JButton(recipe.getIsFavorite() ? "Unmark Favorite" : "Mark as Favorite");
         favoriteButton.setBounds(41, 30, 173, 29);
         buttonPanel.add(favoriteButton);
         
-        JLabel lblNewLabel = new JLabel("View Recipe");
+        lblNewLabel = new JLabel("View Recipe");
         lblNewLabel.setBounds(182, 10, 80, 16);
         contentPane.add(lblNewLabel);
         
-        JButton btnBack = new JButton("Back");
+        btnBack = new JButton("Back");
         btnBack.addActionListener(new ActionListener() {
-        	public void actionPerformed(ActionEvent e) {
-        		mnuBack_clk();
-        	}
+            public void actionPerformed(ActionEvent e) {
+                mnuBack_clk();
+            }
         });
         btnBack.setBounds(5, 5, 117, 29);
         contentPane.add(btnBack);
         favoriteButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 toggleFavorite();
-                favoriteButton.setText(recipe.getIsFavorite() ? "Unmark Favorite" : "Mark as Favorite");
             }
         });
 
@@ -103,38 +113,27 @@ public class ViewRecipeGUI extends JFrame {
     }
 
     private void displayRecipeDetails() {
-        recipeDetailsArea.setText("Recipe Name: " + recipe.getName() + "\n");
-        recipeDetailsArea.append("Meal Type: " + recipe.getMeal() + "\n");
-        recipeDetailsArea.append("Description: " + recipe.getDescription() + "\n\n");
-
-        recipeDetailsArea.append("Ingredients:\n");
-        for (String ingredient : recipe.getIngredients()) {
-            recipeDetailsArea.append("- " + ingredient + "\n");
-        }
-
-        recipeDetailsArea.append("\nInstructions:\n");
-        for (String instruction : recipe.getInstructions()) {
-            recipeDetailsArea.append("- " + instruction + "\n");
+        if (recipeID != null) {
+            recipeDetailsArea.setText(recipeManager.displayRecipeDetails(this.recipeID));
         }
     }
 
     private void editRecipe() {
         // Create and show the EditRecipeGUI when the "Edit Recipe" button is clicked
-        EditGUI editGUI = new EditGUI(recipeManager, recipe);
+        EditGUI editGUI = new EditGUI(recipeManager, recipeManager.getRecipe(this.recipeID));
         editGUI.setVisible(true);
     }
 
     private void deleteRecipe() {
         int confirmation = JOptionPane.showConfirmDialog(this, "Are you sure you want to delete this recipe?", "Confirm Deletion", JOptionPane.YES_NO_OPTION);
         if (confirmation == JOptionPane.YES_OPTION) {
-            recipeManager.deleteRecipe(recipe.getRecipeID());
+            recipeManager.deleteRecipe(recipeID);
             JOptionPane.showMessageDialog(this, "Recipe deleted successfully.");
             dispose();  // Close the current window after deletion
         }
     }
 
     private void exportRecipeToTextFile() {
-        // Show a file chooser dialog to select the location to save the file
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setDialogTitle("Save Recipe As");
 
@@ -142,22 +141,8 @@ public class ViewRecipeGUI extends JFrame {
 
         if (userSelection == JFileChooser.APPROVE_OPTION) {
             File fileToSave = fileChooser.getSelectedFile();
-
-            try (FileWriter writer = new FileWriter(fileToSave)) {
-                writer.write("Recipe Name: " + recipe.getName() + "\n");
-                writer.write("Meal Type: " + recipe.getMeal() + "\n");
-                writer.write("Description: " + recipe.getDescription() + "\n\n");
-
-                writer.write("Ingredients:\n");
-                for (String ingredient : recipe.getIngredients()) {
-                    writer.write("- " + ingredient + "\n");
-                }
-
-                writer.write("\nInstructions:\n");
-                for (String instruction : recipe.getInstructions()) {
-                    writer.write("- " + instruction + "\n");
-                }
-
+            try {
+                recipeManager.exportRecipeToFile(recipeID, fileToSave);
                 JOptionPane.showMessageDialog(this, "Recipe saved successfully to " + fileToSave.getAbsolutePath());
             } catch (IOException e) {
                 JOptionPane.showMessageDialog(this, "An error occurred while saving the recipe.", "Error", JOptionPane.ERROR_MESSAGE);
@@ -167,12 +152,10 @@ public class ViewRecipeGUI extends JFrame {
     }
 
     private void toggleFavorite() {
-        recipeManager.editRecipe(recipe.getRecipeID(), null, null, null, null, null, !recipe.getIsFavorite());
-        recipe.setIsFavorite(!recipe.getIsFavorite());
+    	recipeManager.toggleFavorite(recipeID);
     }
     
     private void mnuBack_clk() {
-    	this.dispose();
+        this.dispose();
     }
-    
 }

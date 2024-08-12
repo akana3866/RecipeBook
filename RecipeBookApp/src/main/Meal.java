@@ -4,5 +4,6 @@ public enum Meal {
 	Breakfast,
     Lunch,
     Dinner,
-    Snack
+    Snack,
+    Dessert
 }

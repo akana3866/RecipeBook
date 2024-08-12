@@ -13,6 +13,12 @@ public class MainGUI extends JFrame {
     private JPanel contentPane;
     private RecipeManager recipeManager;
 
+    JLabel titleLabel;
+    JPanel buttonPanel;
+    JButton browseButton;
+    JButton addButton;
+    JButton searchButton;
+    
     public MainGUI() {
         recipeManager = new RecipeManager();  // Initialize RecipeManager
 
@@ -23,18 +29,18 @@ public class MainGUI extends JFrame {
         contentPane.setLayout(new BorderLayout(0, 0));
         setContentPane(contentPane);
 
-        JLabel titleLabel = new JLabel("Welcome to Your Recipe Book!");
+        titleLabel = new JLabel("Welcome to Your Recipe Book!");
         titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
         titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
         contentPane.add(titleLabel, BorderLayout.NORTH);
 
-        JPanel buttonPanel = new JPanel();
+        buttonPanel = new JPanel();
         buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
         contentPane.add(buttonPanel, BorderLayout.CENTER);
 
         buttonPanel.add(Box.createVerticalStrut(20));
 
-        JButton searchButton = new JButton("Search for a Recipe");
+        searchButton = new JButton("Search for a Recipe");
         searchButton.setAlignmentX(CENTER_ALIGNMENT);
         buttonPanel.add(searchButton);
         searchButton.addActionListener(new ActionListener() {
@@ -46,7 +52,7 @@ public class MainGUI extends JFrame {
 
         buttonPanel.add(Box.createVerticalStrut(10));
 
-        JButton browseButton = new JButton("Browse All Recipes");
+        browseButton = new JButton("Browse All Recipes");
         browseButton.setAlignmentX(CENTER_ALIGNMENT);
         buttonPanel.add(browseButton);
         browseButton.addActionListener(new ActionListener() {
@@ -58,7 +64,7 @@ public class MainGUI extends JFrame {
 
         buttonPanel.add(Box.createVerticalStrut(10));
 
-        JButton addButton = new JButton("Add a New Recipe");
+        addButton = new JButton("Add a New Recipe");
         addButton.setAlignmentX(CENTER_ALIGNMENT);
         buttonPanel.add(addButton);
         addButton.addActionListener(new ActionListener() {

@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
+import java.util.UUID;
 
 public class SearchGUI extends JFrame {
 
@@ -70,8 +71,10 @@ public class SearchGUI extends JFrame {
                     // Double-click detected
                     int index = recipeList.locationToIndex(evt.getPoint());
                     if (index >= 0) {
+//                        Recipe selectedRecipe = recipeManager.getRecipes().get(index);
+
                         Recipe selectedRecipe = currentSearchResults.get(index);
-                        openViewRecipeGUI(selectedRecipe);
+                        openViewRecipeGUI(selectedRecipe.getRecipeID());
                     }
                 }
             }
@@ -108,8 +111,8 @@ public class SearchGUI extends JFrame {
         }
     }
 
-    private void openViewRecipeGUI(Recipe recipe) {
-        ViewRecipeGUI viewRecipeGUI = new ViewRecipeGUI(recipeManager, recipe);
+    private void openViewRecipeGUI(UUID recipeID) {
+        ViewRecipeGUI viewRecipeGUI = new ViewRecipeGUI(recipeManager, recipeID);
         viewRecipeGUI.setVisible(true);
     }
 

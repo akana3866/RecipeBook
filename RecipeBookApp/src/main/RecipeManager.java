@@ -2,7 +2,9 @@ package main;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 public class RecipeManager {
@@ -133,6 +135,20 @@ public class RecipeManager {
                     }
                 }
                 break;
+            case "Snack":
+                for (Recipe recipe : recipeList) {
+                    if (recipe.getMeal() == Meal.Snack) {
+                        sortedRecipes.add(recipe);
+                    }
+                }
+                break;
+            case "Dessert":
+                for (Recipe recipe : recipeList) {
+                    if (recipe.getMeal() == Meal.Dessert) {
+                        sortedRecipes.add(recipe);
+                    }
+                }
+                break;
             case "Favorites":
                 for (Recipe recipe : recipeList) {
                     if (recipe.getIsFavorite()) {
@@ -148,8 +164,33 @@ public class RecipeManager {
         return sortedRecipes;
     }
 
+    public void exportRecipeToFile(UUID recipeID, File file) throws IOException {
+        if (recipeID != null && file != null) {
+            try (FileWriter writer = new FileWriter(file)) {
+                writer.write(displayRecipeDetails(recipeID));
+            }
+        }
+    }
+    
+    public void toggleFavorite(UUID recipeID) {
+        Recipe recipe = getRecipe(recipeID);
+        if (recipe != null) {
+            recipe.setIsFavorite(!recipe.getIsFavorite());
+            saveAllRecipes();  // Save changes to file after toggling favorite
+        }
+    }
+    
+    public Map<String, UUID> getRecipeNamesAndIDs() {
+        Map<String, UUID> recipeMap = new HashMap<>();
+        for (Recipe recipe : recipeList) {
+            recipeMap.put(recipe.getName(), recipe.getRecipeID());
+        }
+        return recipeMap;
+    }
+    
     // Display recipe details
-    public String displayRecipeDetails(Recipe recipe) {
+	public String displayRecipeDetails(UUID recipeID) {
+    	Recipe recipe = getRecipe(recipeID);
         StringBuilder details = new StringBuilder();
         
         details.append("Recipe ID: ").append(recipe.getRecipeID()).append("\n");
