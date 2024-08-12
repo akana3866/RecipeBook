@@ -13,11 +13,11 @@ public class MainGUI extends JFrame {
     private JPanel contentPane;
     private RecipeManager recipeManager;
 
-    JLabel titleLabel;
-    JPanel buttonPanel;
-    JButton browseButton;
-    JButton addButton;
-    JButton searchButton;
+    private JLabel titleLabel;
+    private JPanel buttonPanel;
+    private JButton browseButton;
+    private JButton addButton;
+    private JButton searchButton;
     
     public MainGUI() {
         recipeManager = new RecipeManager();  // Initialize RecipeManager

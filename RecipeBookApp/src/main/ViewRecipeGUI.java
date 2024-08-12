@@ -1,8 +1,6 @@
 package main;
 
-import java.awt.BorderLayout;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.UUID;
 
