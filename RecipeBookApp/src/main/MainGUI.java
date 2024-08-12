@@ -70,7 +70,7 @@ public class MainGUI extends JFrame {
         buttonPanel.add(browseButton);
         browseButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                BrowseGUI browseGUI = new BrowseGUI();
+                BrowseGUI browseGUI = new BrowseGUI(recipeManager);
                 browseGUI.setVisible(true);
             }
         });

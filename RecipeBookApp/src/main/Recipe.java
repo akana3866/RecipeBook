@@ -1,8 +1,11 @@
 package main;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Recipe {
+public class Recipe implements Serializable {
+
+    private static final long serialVersionUID = 1L;  // Serialization identifier
 
     private int recipeID;
     private String name;
