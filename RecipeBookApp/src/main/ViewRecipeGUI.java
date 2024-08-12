@@ -152,8 +152,22 @@ public class ViewRecipeGUI extends JFrame {
     }
 
     private void toggleFavorite() {
-    	recipeManager.toggleFavorite(recipeID);
+        recipeManager.toggleFavorite(recipeID);
+    
+        // Retrieve the updated recipe to check its new favorite status
+        Recipe updatedRecipe = recipeManager.getRecipe(recipeID);
+    
+        // Display a message indicating the new status
+        if (updatedRecipe.getIsFavorite()) {
+            JOptionPane.showMessageDialog(this, "Recipe has been marked as a favorite.", "Favorite Status", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(this, "Recipe has been unmarked as a favorite.", "Favorite Status", JOptionPane.INFORMATION_MESSAGE);
+        }
+    
+        // Update the button text to reflect the new status
+        favoriteButton.setText(updatedRecipe.getIsFavorite() ? "Unmark Favorite" : "Mark as Favorite");
     }
+    
     
     private void mnuBack_clk() {
         this.dispose();

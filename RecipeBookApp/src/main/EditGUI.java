@@ -5,6 +5,7 @@ import javax.swing.border.EmptyBorder;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class EditGUI extends JFrame {
 
@@ -89,7 +90,20 @@ public class EditGUI extends JFrame {
     }
 
     private void saveRecipeChanges() {
-        // The logic for saving the edited recipe would go here
+        
+        recipe.setName(nameField.getText());
+        recipe.setDescription(descriptionArea.getText());
+
+        ArrayList<String> ingredients = new ArrayList<>(Arrays.asList(ingredientsArea.getText().split("\n")));
+        recipe.setIngredients(ingredients);
+
+        ArrayList<String> instructions = new ArrayList<>(Arrays.asList(instructionsArea.getText().split("\n")));
+        recipe.setInstructions(instructions);
+
+        recipe.setMeal((Meal) mealComboBox.getSelectedItem());
+        recipeManager.saveAllRecipes();
+        JOptionPane.showMessageDialog(this, "Recipe updated successfully!");
+        
+        dispose();
     }
 }
-
