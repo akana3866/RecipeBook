@@ -45,8 +45,7 @@ public class MainGUI extends JFrame {
         buttonPanel.add(searchButton);
         searchButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                SearchGUI searchGUI = new SearchGUI(recipeManager);
-                searchGUI.setVisible(true);
+                openSearchGUI();
             }
         });
 
@@ -57,8 +56,7 @@ public class MainGUI extends JFrame {
         buttonPanel.add(browseButton);
         browseButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                BrowseGUI browseGUI = new BrowseGUI(recipeManager);
-                browseGUI.setVisible(true);
+                openBrowseGUI();
             }
         });
 
@@ -69,9 +67,31 @@ public class MainGUI extends JFrame {
         buttonPanel.add(addButton);
         addButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                AddRecipeGUI addRecipeGUI = new AddRecipeGUI(recipeManager);
-                addRecipeGUI.setVisible(true);
+                openAddRecipeGUI();
             }
         });
+    }
+
+    // Method to open SearchGUI
+    private void openSearchGUI() {
+        SearchGUI searchGUI = new SearchGUI(recipeManager);
+        searchGUI.setVisible(true);
+    }
+
+    // Method to open BrowseGUI
+    private void openBrowseGUI() {
+        BrowseGUI browseGUI = new BrowseGUI(recipeManager);
+        browseGUI.setVisible(true);
+    }
+
+    // Method to open AddRecipeGUI
+    private void openAddRecipeGUI() {
+        AddRecipeGUI addRecipeGUI = new AddRecipeGUI(recipeManager);
+        addRecipeGUI.setVisible(true);
+    }
+
+    public static void main(String[] args) {
+        MainGUI frame = new MainGUI();
+        frame.setVisible(true);
     }
 }

@@ -87,7 +87,7 @@ public class RecipeManager {
 
     // Edit a recipe by its ID
     public void editRecipe(UUID recipeID, String newName, String newDescription, Meal newMeal,
-                           ArrayList<String> newIngredients, ArrayList<String> newInstructions, boolean newIsFavorite) {
+        ArrayList<String> newIngredients, ArrayList<String> newInstructions, boolean newIsFavorite) {
         Recipe recipe = getRecipe(recipeID);
         if (recipe != null) {
             recipe.setName(newName != null ? newName : recipe.getName());
