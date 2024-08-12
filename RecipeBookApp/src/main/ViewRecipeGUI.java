@@ -1,11 +1,9 @@
 package main;
 
 import java.awt.BorderLayout;
-import java.awt.EventQueue;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -16,6 +14,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JOptionPane;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.JLabel;
 
 public class ViewRecipeGUI extends JFrame {
 
@@ -25,57 +24,32 @@ public class ViewRecipeGUI extends JFrame {
     private Recipe recipe;
     private RecipeManager recipeManager;
 
-    public static void main(String[] args) {
-        EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                try {
-                    // Creating a sample Recipe object for demonstration
-                    ArrayList<String> ingredients = new ArrayList<>();
-                    ingredients.add("Ingredient 1");
-                    ingredients.add("Ingredient 2");
-
-                    ArrayList<String> instructions = new ArrayList<>();
-                    instructions.add("Step 1");
-                    instructions.add("Step 2");
-
-                    Recipe sampleRecipe = new Recipe(1, "Sample Recipe", "A delicious meal", Meal.BREAKFAST, 
-                            ingredients, instructions, false);
-                    
-                    // Dummy RecipeManager for demonstration
-                    RecipeManager recipeManager = new RecipeManager();
-
-                    // Instantiating the ViewRecipeGUI with the sample recipe
-                    ViewRecipeGUI frame = new ViewRecipeGUI(recipeManager, sampleRecipe);
-                    frame.setVisible(true);
-                } catch (Exception e) {
-                    e.printStackTrace();  // Print stack trace for debugging
-                }
-            }
-        });
-    }
-
     public ViewRecipeGUI(RecipeManager recipeManager, Recipe recipe) {
         this.recipeManager = recipeManager;
         this.recipe = recipe;
 
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setBounds(100, 100, 450, 300);
         contentPane = new JPanel();
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-        contentPane.setLayout(new BorderLayout(0, 0));
         setContentPane(contentPane);
+        contentPane.setLayout(null);
 
         // Text area to show recipe details
         recipeDetailsArea = new JTextArea();
         recipeDetailsArea.setEditable(false);
         JScrollPane scrollPane = new JScrollPane(recipeDetailsArea);
-        contentPane.add(scrollPane, BorderLayout.CENTER);
+        scrollPane.setBounds(5, 38, 440, 164);
+        contentPane.add(scrollPane);
 
         // Bottom panel for buttons
         JPanel buttonPanel = new JPanel();
-        contentPane.add(buttonPanel, BorderLayout.SOUTH);
+        buttonPanel.setBounds(5, 202, 440, 64);
+        contentPane.add(buttonPanel);
+        buttonPanel.setLayout(null);
 
         JButton editButton = new JButton("Edit Recipe");
+        editButton.setBounds(41, 5, 173, 29);
         buttonPanel.add(editButton);
         editButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -84,6 +58,7 @@ public class ViewRecipeGUI extends JFrame {
         });
 
         JButton deleteButton = new JButton("Delete Recipe");
+        deleteButton.setBounds(252, 5, 160, 29);
         buttonPanel.add(deleteButton);
         deleteButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -92,6 +67,7 @@ public class ViewRecipeGUI extends JFrame {
         });
 
         JButton exportButton = new JButton("Export to Text File");
+        exportButton.setBounds(252, 30, 160, 29);
         buttonPanel.add(exportButton);
         exportButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -99,8 +75,23 @@ public class ViewRecipeGUI extends JFrame {
             }
         });
 
+        // Favorite button to toggle favorite status
         JButton favoriteButton = new JButton(recipe.getIsFavorite() ? "Unmark Favorite" : "Mark as Favorite");
+        favoriteButton.setBounds(41, 30, 173, 29);
         buttonPanel.add(favoriteButton);
+        
+        JLabel lblNewLabel = new JLabel("View Recipe");
+        lblNewLabel.setBounds(182, 10, 80, 16);
+        contentPane.add(lblNewLabel);
+        
+        JButton btnBack = new JButton("Back");
+        btnBack.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		mnuBack_clk();
+        	}
+        });
+        btnBack.setBounds(5, 5, 117, 29);
+        contentPane.add(btnBack);
         favoriteButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 toggleFavorite();
@@ -134,25 +125,29 @@ public class ViewRecipeGUI extends JFrame {
     }
 
     private void deleteRecipe() {
-        // Implement the delete functionality
-        // For example, remove the recipe from the list or database
+        int confirmation = JOptionPane.showConfirmDialog(this, "Are you sure you want to delete this recipe?", "Confirm Deletion", JOptionPane.YES_NO_OPTION);
+        if (confirmation == JOptionPane.YES_OPTION) {
+            recipeManager.deleteRecipe(recipe.getRecipeID());
+            JOptionPane.showMessageDialog(this, "Recipe deleted successfully.");
+            dispose();  // Close the current window after deletion
+        }
     }
 
     private void exportRecipeToTextFile() {
         // Show a file chooser dialog to select the location to save the file
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setDialogTitle("Save Recipe As");
-        
+
         int userSelection = fileChooser.showSaveDialog(this);
-        
+
         if (userSelection == JFileChooser.APPROVE_OPTION) {
             File fileToSave = fileChooser.getSelectedFile();
-            
+
             try (FileWriter writer = new FileWriter(fileToSave)) {
                 writer.write("Recipe Name: " + recipe.getName() + "\n");
                 writer.write("Meal Type: " + recipe.getMeal() + "\n");
                 writer.write("Description: " + recipe.getDescription() + "\n\n");
-                
+
                 writer.write("Ingredients:\n");
                 for (String ingredient : recipe.getIngredients()) {
                     writer.write("- " + ingredient + "\n");
@@ -172,7 +167,12 @@ public class ViewRecipeGUI extends JFrame {
     }
 
     private void toggleFavorite() {
-        // Implement the favorite functionality
+        recipeManager.editRecipe(recipe.getRecipeID(), null, null, null, null, null, !recipe.getIsFavorite());
         recipe.setIsFavorite(!recipe.getIsFavorite());
     }
+    
+    private void mnuBack_clk() {
+    	this.dispose();
+    }
+    
 }

@@ -14,8 +14,22 @@ public class AddRecipeGUI extends JFrame {
     private JTextArea descriptionArea;
     private JTextArea ingredientsArea;
     private JTextArea instructionsArea;
-    private JComboBox<Meal> mealComboBox;
     
+    private JScrollPane ingredientsScrollPane;
+    private JScrollPane instructionsScrollPane;
+    
+    private JLabel lblName;
+    private JLabel lblDescription;
+    private JLabel lblIngredients;
+    private JLabel lblInstructions;
+    private JLabel lblMeal;
+    
+    private JButton btnSave;
+    private JButton btnCancel;
+    private JLabel lblAddNewRecipe;
+    
+    private JComboBox<Meal> mealComboBox;
+
     private RecipeManager recipeManager;
 
     public AddRecipeGUI(RecipeManager recipeManager) {
@@ -28,58 +42,77 @@ public class AddRecipeGUI extends JFrame {
         contentPane.setLayout(null);
         setContentPane(contentPane);
 
-        JLabel lblName = new JLabel("Name:");
-        lblName.setBounds(10, 10, 80, 25);
+        lblName = new JLabel("Name:");
+        lblName.setBounds(24, 34, 80, 25);
         contentPane.add(lblName);
 
         nameField = new JTextField();
-        nameField.setBounds(100, 10, 300, 25);
+        nameField.setBounds(114, 34, 300, 25);
         contentPane.add(nameField);
 
-        JLabel lblDescription = new JLabel("Description:");
-        lblDescription.setBounds(10, 45, 80, 25);
+        lblDescription = new JLabel("Description:");
+        lblDescription.setBounds(24, 71, 80, 25);
         contentPane.add(lblDescription);
 
         descriptionArea = new JTextArea();
-        descriptionArea.setBounds(100, 45, 300, 50);
+        descriptionArea.setBounds(114, 71, 300, 50);
         contentPane.add(descriptionArea);
 
-        JLabel lblIngredients = new JLabel("Ingredients:");
-        lblIngredients.setBounds(10, 110, 80, 25);
+        lblIngredients = new JLabel("Ingredients:");
+        lblIngredients.setVerticalAlignment(SwingConstants.TOP);
+        lblIngredients.setBounds(24, 135, 80, 25);
         contentPane.add(lblIngredients);
-
+        
         ingredientsArea = new JTextArea();
-        ingredientsArea.setBounds(100, 110, 300, 50);
-        contentPane.add(ingredientsArea);
-
-        JLabel lblInstructions = new JLabel("Instructions:");
-        lblInstructions.setBounds(10, 175, 80, 25);
+        ingredientsScrollPane = new JScrollPane(ingredientsArea);
+        ingredientsScrollPane.setBounds(114, 133, 300, 64);
+        contentPane.add(ingredientsScrollPane);
+        
+        
+        lblInstructions = new JLabel("Instructions:");
+        lblInstructions.setBounds(24, 237, 80, 25);
         contentPane.add(lblInstructions);
 
         instructionsArea = new JTextArea();
-        instructionsArea.setBounds(100, 175, 300, 50);
-        contentPane.add(instructionsArea);
+        instructionsScrollPane = new JScrollPane(instructionsArea);
+                
+        instructionsScrollPane.setBounds(114, 212, 300, 76);
+        contentPane.add(instructionsScrollPane);
 
-        JLabel lblMeal = new JLabel("Meal:");
-        lblMeal.setBounds(10, 240, 80, 25);
+        lblMeal = new JLabel("Meal:");
+        lblMeal.setBounds(24, 299, 80, 25);
         contentPane.add(lblMeal);
 
         mealComboBox = new JComboBox<>(Meal.values());
-        mealComboBox.setBounds(100, 240, 300, 25);
+        mealComboBox.setBounds(114, 300, 300, 25);
         contentPane.add(mealComboBox);
 
-        JButton btnSave = new JButton("Save Recipe");
-        btnSave.setBounds(150, 300, 150, 25);
+        btnSave = new JButton("Save Recipe");
+        btnSave.setBounds(264, 339, 150, 25);
         contentPane.add(btnSave);
+        
+        btnCancel = new JButton("Cancel");
+        btnCancel.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		mnuBack_clk();
+        	}
+        });
+        btnCancel.setBounds(24, 337, 117, 29);
+        contentPane.add(btnCancel);
+        
+        lblAddNewRecipe = new JLabel("Add New Recipe");
+        lblAddNewRecipe.setHorizontalAlignment(SwingConstants.CENTER);
+        lblAddNewRecipe.setBounds(168, 9, 110, 25);
+        contentPane.add(lblAddNewRecipe);
 
         btnSave.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                saveRecipe();
+            	mnuSave_clk();
             }
         });
     }
 
-    private void saveRecipe() {
+    private void mnuSave_clk() {
         String name = nameField.getText();
         String description = descriptionArea.getText();
         ArrayList<String> ingredients = new ArrayList<>();
@@ -92,10 +125,13 @@ public class AddRecipeGUI extends JFrame {
         }
         Meal meal = (Meal) mealComboBox.getSelectedItem();
 
-        Recipe recipe = new Recipe(0, name, description, meal, ingredients, instructions, false);
-        recipeManager.addRecipe(recipe);  // Using the addRecipe method
+        recipeManager.addRecipe(name, description, meal, ingredients, instructions, false);
 
         JOptionPane.showMessageDialog(this, "Recipe added successfully!");
         dispose();
+    }
+    
+    private void mnuBack_clk() {
+    	this.dispose();
     }
 }

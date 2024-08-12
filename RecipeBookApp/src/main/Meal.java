@@ -1,7 +1,8 @@
 package main;
 
 public enum Meal {
-	BREAKFAST,
-    LUNCH,
-    DINNER
+	Breakfast,
+    Lunch,
+    Dinner,
+    Snack
 }

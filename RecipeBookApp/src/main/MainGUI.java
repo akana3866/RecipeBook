@@ -1,15 +1,9 @@
 package main;
 
 import java.awt.BorderLayout;
-import java.awt.EventQueue;
-import java.awt.Font;
-import javax.swing.Box;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.BoxLayout;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -18,19 +12,6 @@ public class MainGUI extends JFrame {
     private static final long serialVersionUID = 1L;
     private JPanel contentPane;
     private RecipeManager recipeManager;
-
-    public static void main(String[] args) {
-        EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                try {
-                    MainGUI frame = new MainGUI();
-                    frame.setVisible(true);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
 
     public MainGUI() {
         recipeManager = new RecipeManager();  // Initialize RecipeManager
@@ -43,7 +24,7 @@ public class MainGUI extends JFrame {
         setContentPane(contentPane);
 
         JLabel titleLabel = new JLabel("Welcome to Your Recipe Book!");
-        titleLabel.setHorizontalAlignment(JLabel.CENTER);
+        titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
         titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
         contentPane.add(titleLabel, BorderLayout.NORTH);
 
@@ -58,7 +39,7 @@ public class MainGUI extends JFrame {
         buttonPanel.add(searchButton);
         searchButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                SearchGUI searchGUI = new SearchGUI();
+                SearchGUI searchGUI = new SearchGUI(recipeManager);
                 searchGUI.setVisible(true);
             }
         });

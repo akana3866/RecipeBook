@@ -2,22 +2,22 @@ package main;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.UUID;
 
 public class Recipe implements Serializable {
 
-    private static final long serialVersionUID = 1L;  // Serialization identifier
+    private static final long serialVersionUID = 1L;
 
-    private int recipeID;
+    private UUID recipeID;
     private String name;
     private String description;
     private Meal meal;
     private ArrayList<String> ingredients;
     private ArrayList<String> instructions;
-    private Boolean isFavorite;
+    private boolean isFavorite;
 
-    public Recipe(int recipeID, String name, String description, Meal meal, ArrayList<String> ingredients,
-            ArrayList<String> instructions, boolean isFavorite) {
-        this.recipeID = recipeID;
+    public Recipe(String name, String description, Meal meal, ArrayList<String> ingredients, ArrayList<String> instructions, boolean isFavorite) {
+        this.recipeID = UUID.randomUUID();
         this.name = name;
         this.description = description;
         this.meal = meal;
@@ -26,12 +26,8 @@ public class Recipe implements Serializable {
         this.isFavorite = isFavorite;
     }
 
-    public int getRecipeID() {
+    public UUID getRecipeID() {
         return recipeID;
-    }
-
-    public void setRecipeID(int recipeID) {
-        this.recipeID = recipeID;
     }
 
     public String getName() {
@@ -78,7 +74,7 @@ public class Recipe implements Serializable {
         return isFavorite;
     }
 
-    public void setIsFavorite(Boolean isFavorite) {
+    public void setIsFavorite(boolean isFavorite) {
         this.isFavorite = isFavorite;
     }
 }
