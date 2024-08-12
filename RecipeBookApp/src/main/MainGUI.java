@@ -20,7 +20,7 @@ public class MainGUI extends JFrame {
     private JButton searchButton;
     
     public MainGUI() {
-        recipeManager = new RecipeManager();  // Initialize RecipeManager
+        recipeManager = RecipeManager.getInstance();  // Use the singleton instance of RecipeManager
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 450, 300);

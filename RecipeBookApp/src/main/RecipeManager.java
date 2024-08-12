@@ -9,17 +9,27 @@ import java.util.UUID;
 
 public class RecipeManager {
 
+    private static RecipeManager instance;
     private ArrayList<Recipe> recipeList;
     private static final String FILE_NAME = "recipes.dat";
 
-    public RecipeManager() {
+    // Private constructor to prevent instantiation
+    private RecipeManager() {
         recipeList = new ArrayList<>();
         loadAllRecipes();  // Load recipes from file at startup
     }
 
+    // Public method to provide access to the single instance
+    public static synchronized RecipeManager getInstance() {
+        if (instance == null) {
+            instance = new RecipeManager();
+        }
+        return instance;
+    }
+
     // Load recipes from the binary file
     @SuppressWarnings("unchecked")
-    void loadAllRecipes() {
+    private void loadAllRecipes() {
         File file = new File(FILE_NAME);
         if (file.exists()) {
             try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
@@ -36,7 +46,7 @@ public class RecipeManager {
     }
 
     // Save recipes to the binary file
-    void saveAllRecipes() {
+    public void saveAllRecipes() {
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(FILE_NAME))) {
             oos.writeObject(recipeList);
             System.out.println("Recipes saved to file.");
