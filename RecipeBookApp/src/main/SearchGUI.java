@@ -2,7 +2,6 @@ package main;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -21,7 +20,6 @@ public class SearchGUI extends JFrame {
     private JButton btnBack;
     private JLabel searchLabel;
     private JScrollPane scrollPane;
-    private List<Recipe> currentSearchResults;  // Store the search results
     private JLabel lblInstructions;
     private JPanel searchPanel;
     private JButton searchButton;
@@ -71,10 +69,11 @@ public class SearchGUI extends JFrame {
                     // Double-click detected
                     int index = recipeList.locationToIndex(evt.getPoint());
                     if (index >= 0) {
-//                        Recipe selectedRecipe = recipeManager.getRecipes().get(index);
-
-                        Recipe selectedRecipe = currentSearchResults.get(index);
-                        openViewRecipeGUI(selectedRecipe.getRecipeID());
+                        String selectedRecipeName = listModel.getElementAt(index);
+                        UUID recipeID = recipeManager.getRecipeNamesAndIDs().get(selectedRecipeName);
+                        if (recipeID != null) {
+                            openViewRecipeGUI(recipeID);
+                        }
                     }
                 }
             }
@@ -100,12 +99,12 @@ public class SearchGUI extends JFrame {
 
     private void displaySearchResults(String searchText) {
         listModel.clear();  // Clear previous results
-        currentSearchResults = recipeManager.searchRecipesByName(searchText);
+        List<Recipe> searchResults = recipeManager.searchRecipesByName(searchText);
 
-        if (currentSearchResults.isEmpty()) {
+        if (searchResults.isEmpty()) {
             JOptionPane.showMessageDialog(this, "No recipes found matching: " + searchText);
         } else {
-            for (Recipe recipe : currentSearchResults) {
+            for (Recipe recipe : searchResults) {
                 listModel.addElement(recipe.getName());
             }
         }

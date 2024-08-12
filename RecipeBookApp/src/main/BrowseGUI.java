@@ -18,7 +18,6 @@ public class BrowseGUI extends JFrame {
     private JComboBox<String> sortComboBox;
     private RecipeManager recipeManager;
     private DefaultListModel<String> listModel;
-    private List<Recipe> currentBrowseResults;  // Store the browse results
 
     private JPanel sortPanel;
     private JButton filterButton;
@@ -46,7 +45,7 @@ public class BrowseGUI extends JFrame {
         contentPane.add(sortPanel);
 
         // Combo box for sorting options
-        String[] sortOptions = { "All Recipes", "Breakfast", "Lunch", "Dinner", "Snack", " Dessert", "Favorites" };
+        String[] sortOptions = { "All Recipes", "Breakfast", "Lunch", "Dinner", "Snack", "Dessert", "Favorites" };
         sortComboBox = new JComboBox<>(sortOptions);
         sortPanel.add(sortComboBox);
 
@@ -58,7 +57,7 @@ public class BrowseGUI extends JFrame {
                 sortAndDisplayRecipes(selectedOption);
             }
         });
-
+        
         // Center panel with a split layout for list and details
         splitPane = new JSplitPane();
         splitPane.setBounds(5, 112, 590, 255);
@@ -71,14 +70,17 @@ public class BrowseGUI extends JFrame {
         recipeList.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
                 int index = recipeList.locationToIndex(e.getPoint());
-                if (index >= 0 && index <= currentBrowseResults.size()) {
-                    Recipe selectedRecipe = currentBrowseResults.get(index);
-                    if (e.getClickCount() == 1) {
-                        // Single-click detected, display the recipe details
-                        displayRecipeDetails(selectedRecipe.getRecipeID());
-                    } else if (e.getClickCount() == 2) {
-                        // Double-click detected, open the ViewRecipeGUI
-                        openViewRecipeGUI(selectedRecipe.getRecipeID());
+                if (index >= 0 && index < listModel.getSize()) {
+                    String selectedRecipeName = listModel.getElementAt(index);
+                    UUID recipeID = recipeManager.getRecipeNamesAndIDs().get(selectedRecipeName);
+                    if (recipeID != null) {
+                        if (e.getClickCount() == 1) {
+                            // Single-click detected, display the recipe details
+                            displayRecipeDetails(recipeID);
+                        } else if (e.getClickCount() == 2) {
+                            // Double-click detected, open the ViewRecipeGUI
+                            openViewRecipeGUI(recipeID);
+                        }
                     }
                 }
             }
@@ -121,9 +123,9 @@ public class BrowseGUI extends JFrame {
     }
 
     private void sortAndDisplayRecipes(String criteria) {
-        currentBrowseResults = recipeManager.sortRecipes(criteria);
+        List<Recipe> sortedRecipes = recipeManager.sortRecipes(criteria);
         listModel.clear();  // Clear the current list
-        for (Recipe recipe : currentBrowseResults) {
+        for (Recipe recipe : sortedRecipes) {
             listModel.addElement(recipe.getName());  // Add the recipe name to the list
         }
     }
