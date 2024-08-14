@@ -103,7 +103,7 @@ public class BrowseGUI extends JFrame {
         btnBack.setBounds(6, 6, 117, 29);
         contentPane.add(btnBack);
         
-        lblClickInstr = new JLabel("Click on the recipe name in the list on the bottom left pane to view the recipe.");
+        lblClickInstr = new JLabel("Click on the recipe in the list on the left pane to view it in the right pane.");
         lblClickInstr.setHorizontalAlignment(SwingConstants.CENTER);
         lblClickInstr.setBounds(39, 75, 522, 16);
         contentPane.add(lblClickInstr);
@@ -113,7 +113,7 @@ public class BrowseGUI extends JFrame {
         lblDblClickInstr.setBounds(39, 96, 522, 16);
         contentPane.add(lblDblClickInstr);
         
-        lblFilterInstr = new JLabel("To filter your recipes, select a filter parameter above and click Filter.");
+        lblFilterInstr = new JLabel("To optionally filter your recipes, select a filter parameter above and click Filter.");
         lblFilterInstr.setHorizontalAlignment(SwingConstants.CENTER);
         lblFilterInstr.setBounds(39, 47, 522, 16);
         contentPane.add(lblFilterInstr);
