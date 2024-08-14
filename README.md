@@ -1,6 +1,13 @@
 # RecipeBook
 OOP Recipe Book System
 
+### Quick Disclaimers
+We used VSCode to work on, implement, and test this project. For all group members of the project right before submission, we used VSCode to check if our implementation was working and it was working across the board. We have not checked on other IDEs, so we are unsure if the implementation or code works there. But it should. Should any problems arise in pathing we have referenced potential fixes below:
+
+*Right-click on the src folder in your IDE's file explorer.
+*Select "Mark Directory as" (or "Build Path" > "Use as Source Folder").
+*Ensure that src/main is marked as a source folder. This tells the IDE to treat this directory as containing Java source files.
+
 ### Overview
 The project that we as a group wanted to implement is a recipe book, designed to help users manage and organize their favorite recipes. The application will allow users to add new recipes, browse through their collection, search for specific recipes, edit recipes, and favorite recipes, export them to a .txt file, and delete recipes they no longer need. The application will have a user-friendly Java GUI and store recipes in a text file for easy retrieval and management.
 
