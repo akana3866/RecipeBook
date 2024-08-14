@@ -118,7 +118,7 @@ public class ViewRecipeGUI extends JFrame {
 
     private void editRecipe() {
         // Create and show the EditRecipeGUI when the "Edit Recipe" button is clicked
-        EditGUI editGUI = new EditGUI(recipeManager, recipeManager.getRecipe(this.recipeID));
+        EditGUI editGUI = new EditGUI(recipeManager, this.recipeID);
         editGUI.setVisible(true);
     }
 

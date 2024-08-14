@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.UUID;
 
 public class EditGUI extends JFrame {
 
@@ -22,13 +23,16 @@ public class EditGUI extends JFrame {
     private JLabel lblIngredients;
     private JLabel lblDescription;
     private JLabel lblName;
-    
-    private RecipeManager recipeManager;
-    private Recipe recipe;
+    private JCheckBox chckbxFavorite;
 
-    public EditGUI(RecipeManager recipeManager, Recipe recipe) {
+    private RecipeManager recipeManager;
+    private UUID recipeID;
+
+    public EditGUI(RecipeManager recipeManager, UUID recipeID) {
         this.recipeManager = recipeManager;
-        this.recipe = recipe;
+        this.recipeID = recipeID;
+
+        Recipe recipe = recipeManager.getRecipe(recipeID);
 
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setBounds(100, 100, 450, 400);
@@ -78,8 +82,13 @@ public class EditGUI extends JFrame {
         mealComboBox.setBounds(100, 240, 300, 25);
         contentPane.add(mealComboBox);
 
+        chckbxFavorite = new JCheckBox("Favorite Recipe");
+        chckbxFavorite.setBounds(100, 277, 128, 23);
+        chckbxFavorite.setSelected(recipe.getIsFavorite());
+        contentPane.add(chckbxFavorite);
+
         btnSave = new JButton("Save Changes");
-        btnSave.setBounds(150, 300, 150, 25);
+        btnSave.setBounds(150, 315, 150, 25);
         contentPane.add(btnSave);
 
         btnSave.addActionListener(new ActionListener() {
@@ -90,20 +99,19 @@ public class EditGUI extends JFrame {
     }
 
     private void saveRecipeChanges() {
-        
-        recipe.setName(nameField.getText());
-        recipe.setDescription(descriptionArea.getText());
+        String newName = nameField.getText();
+        String newDescription = descriptionArea.getText();
 
-        ArrayList<String> ingredients = new ArrayList<>(Arrays.asList(ingredientsArea.getText().split("\n")));
-        recipe.setIngredients(ingredients);
+        ArrayList<String> newIngredients = new ArrayList<>(Arrays.asList(ingredientsArea.getText().split("\n")));
+        ArrayList<String> newInstructions = new ArrayList<>(Arrays.asList(instructionsArea.getText().split("\n")));
+        Meal newMeal = (Meal) mealComboBox.getSelectedItem();
+        boolean newIsFavorite = chckbxFavorite.isSelected();
 
-        ArrayList<String> instructions = new ArrayList<>(Arrays.asList(instructionsArea.getText().split("\n")));
-        recipe.setInstructions(instructions);
+        // Use RecipeManager to update the recipe, including the favorite status
+        recipeManager.editRecipe(recipeID, newName, newDescription, newMeal, newIngredients, newInstructions, newIsFavorite);
 
-        recipe.setMeal((Meal) mealComboBox.getSelectedItem());
-        recipeManager.saveAllRecipes();
         JOptionPane.showMessageDialog(this, "Recipe updated successfully!");
-        
+
         dispose();
     }
 }
