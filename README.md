@@ -8,6 +8,13 @@ We used VSCode to work on, implement, and test this project. For all group membe
 *Select "Mark Directory as" (or "Build Path" > "Use as Source Folder").
 *Ensure that src/main is marked as a source folder. This tells the IDE to treat this directory as containing Java source files.
 
+OR
+
+Right-click on the RecipeBookApp project and select "Properties."
+Go to "Java Build Path" (or "Build Path" > "Configure Build Path").
+Under the "Source" tab, ensure that src/main (or src/main/java if you have a java subfolder) is listed as a source folder.
+If it’s missing, click "Add Folder" and navigate to select the src/main folder.
+
 ### Overview
 The project that we as a group wanted to implement is a recipe book, designed to help users manage and organize their favorite recipes. The application will allow users to add new recipes, browse through their collection, search for specific recipes, edit recipes, and favorite recipes, export them to a .txt file, and delete recipes they no longer need. The application will have a user-friendly Java GUI and store recipes in a text file for easy retrieval and management.
 
